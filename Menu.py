@@ -61,3 +61,46 @@ while True:
     elif choice == "3":
         sorted_list = tree_sort(unsortedList)
         print("Sorted numbers:", sorted_list)
+
+    elif choice == "4":
+        file_name = input("Enter the file name to save (in .txt format): ")
+        if not file_name.endswith(".txt"):
+            file_name += ".txt"
+        while os.path.exists(file_name):
+            print("File already exists:", file_name)
+            overwrite_choice = input("Do you want to overwrite it? (y/n): ")
+            if overwrite_choice.lower() == "y":
+                break
+            else:
+                file_name = input("Enter a new file name (in .txt format): ")
+                if not file_name.endswith(".txt"):
+                    file_name += ".txt"
+        try:
+            if not sorted_list:
+                print("Please sort numbers before saving.")
+            else:
+
+                with open(file_name, "w") as file:
+                    for number in sorted_list:
+                        file.write(str(number) + "\n")
+                print(f"The sorted numbers have been saved to '{file_name}'.")
+        except IOError:
+            print("Error saving the file!")
+
+    elif choice == "5":
+        file_name = input("Enter the file name to load (in .txt format): ")
+        if not file_name.endswith(".txt"):
+            file_name += ".txt"
+        if not os.path.exists(file_name):
+            print("File does not exist:", file_name)
+        else:
+            try:
+                with open(file_name, 'r') as file:
+                    unsortedList = [float(line.strip()) for line in file]
+                print("Numbers loaded from", file_name)
+            except IOError:
+                print("Error loading the file!")
+    elif choice == "0":
+        break
+    else:
+        print("Invalid choice! Please enter a valid option.")
